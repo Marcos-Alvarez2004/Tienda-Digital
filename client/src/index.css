@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+body {
+  background: #fff;
+  background-color: #ededed;
+}
+
+html {
+  overflow-x: hidden;
+}
