@@ -22,7 +22,7 @@ const orderRoute = require("./routes/Order");
 
 app.use(express.json());
 
-const urlFrontend = "https://ecommerce-topaz-three-27.vercel.app";
+const urlFrontend = "https://tienda-digital-npm.vercel.app";
 
 app.use(
   cors({
