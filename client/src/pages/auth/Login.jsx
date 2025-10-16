@@ -23,17 +23,35 @@ export default function Login() {
             <Layout>
                 {loading ? (<Loading />) : error ? <h1>{error}</h1> : (
                     <>
-                        <form onSubmit={submitHandler} className="max-w-sm mx-auto">
-                            <div className="mb-5">
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <section className="mt-20 py-3 h-full flex flex-col px-4 max-w-screen-sm mx-auto">
+                            <div className="flex items-center justify-center pb-4">
+                                <h2 className="text-2xl font-semibold relative line">Iniciar sesion</h2>
                             </div>
-                            <div className="mb-5">
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                                <input type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required value={password} onChange={(e) => setPassword(e.target.value)} />
-                            </div>
-                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
-                        </form>
+                            <form onSubmit={submitHandler} className="py-8">
+                                <div className="flex flex-col gap-y-4 relative mb-4 w-full h-full">
+
+                                    <div className="mb-5 lg:w-2/3 lg:mx-auto">
+                                        <label htmlFor="email" className="leading-7 text-sm font-bold mr-auto">Email de la cuenta</label>
+                                        <input type="text" id="email" name="email"
+                                            required
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full bg-white rounded border-[0.5px] border-[#ccc] focus:border-celeste-primary focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                                    </div>
+                                    <div className="mb-5 lg:w-2/3 lg:mx-auto">
+                                        <label htmlFor="password" className="leading-7 text-sm font-bold">Contraseña</label>
+                                        <input type="text" id="password" name="password"
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="w-full bg-white rounded border-[0.5px] border-[#ccc] focus:border-celeste-primary focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                                    </div>
+                                    <div className="px-4 w-full lg:w-1/2 lg:mx-auto">
+                                        <button className="text-white w-full text-base font-semibold bg-celeste-primary border-0 py-3 px-6 focus:outline-none rounded-sm cursor-pointer tracking-widest hover:brightness-110">Ingresar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
                     </>
                 )}
             </Layout>

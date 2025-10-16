@@ -1,85 +1,95 @@
 'use client'
-
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+// React & React Redux
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
+// React Router
 import { Link } from "react-router-dom";
+// Components / Componentes
 import CartItem from '../components/CartItem'
+import ArrowBack from '../components/ArrowBack';
+import Loading from "../components/Loading";
 
-export default function Checkout({ open, setOpen }) {
-
+export default function Checkout() {
+    const [isLoading, setIsLoading] = useState(true);
 
     const cart = useSelector((state) => state.cartReducer)
     const { cartItems } = cart;
 
-    const total = cartItems.reduce((total, item) => total + item.qty * item.price, 0).toFixed(2)
+    const totalQty = cartItems?.reduce((acc, item) => acc + (item.qty || 0), 0) ?? 0;
+
+    // subtotal
+    const addDecimal = (num) => {
+        return (Math.round(num * 100) / 100).toFixed(2);
+    }
+    const subtotal = addDecimal(cartItems.reduce((total, item) => total + item.qty * item.price, 0));
+    const shippingPrice = addDecimal(subtotal > 250 ? 0 : 20);
+
+    const total = (Number(subtotal) + Number(shippingPrice)).toFixed(2);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setIsLoading(false)
+        }, 800)
+
+        return () => clearTimeout(timeout)
+    }, [])
+
+    if (isLoading) {
+        return (
+            <section className="min-h-screen flex justify-center items-center">
+                <Loading />
+            </section>
+        )
+    }
 
     return (
-        <Dialog open={open} onClose={() => setOpen(false)} className="relative z-10">
-            <DialogBackdrop
-                transition
-                className="fixed inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"
-            />
+        <>
+            <ArrowBack />
+            <section className="py-4 min-h-screen flex flex-col items-center max-w-screen-lg mx-auto">
+                <h1 className='text-2xl relative line lg:mb-8'>Carrito</h1>
+                <div className='md:flex md:justify-between w-full mt-16'>
+                    <div className="container mx-auto lg:m-0 px-4">
+                        {cartItems.length > 0 ? (
+                            <>
+                                <CartItem cartItems={cartItems} removeFromCartHandler={() => removeFromCartHandler(product.product)} />
+                            </>
+                        ) : (
+                            <p className='text-center text-gray-600 mt-8 text-base lg:text-lg'>Tu carrito está vacío.</p>
+                        )}
+                    </div>
 
-            <div className="fixed inset-0 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                        <DialogPanel
-                            transition
-                            className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700"
-                        >
-                            <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                                <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                                    <div className="flex items-start justify-between">
-                                        <DialogTitle className="text-lg font-medium text-gray-900">Shopping cart</DialogTitle>
-                                        <div className="ml-3 flex h-7 items-center">
-                                            <button
-                                                type="button"
-                                                onClick={() => setOpen(false)}
-                                                className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                                            >
-                                                <span className="absolute -inset-0.5" />
-                                                <span className="sr-only">Close panel</span>
-                                                <XMarkIcon aria-hidden="true" className="size-6" />
-                                            </button>
-                                        </div>
+                    {cartItems.length > 0 ? (
+                        <div className='w-full md:w-1/2 md:mx-auto py-2 px-4 lg:py-0'>
+                            <div className=' border-[0.5px] border-[#ccc] rounded-sm bg-white'>
+                                <h4 className='text-sm px-4 py-3 font-medium border-b-[0.5px] border-[#ccc]'>Resumen de la compra</h4>
+                                <div className='py-3 px-4'>
+                                    <div className='flex justify-between items-center font-normal text-xs mb-1 pb-2'>
+                                        <span>Producto/s ({totalQty})</span>
+                                        <span>US$ {subtotal}</span>
                                     </div>
-
-                                    <CartItem cartItems={cartItems} removeFromCartHandler={() => removeFromCartHandler(product.product)} />
-                                </div>
-
-                                <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                        <p>Subtotal</p>
-                                        <p>${total}</p>
+                                    <div className='flex justify-between items-center font-normal text-xs mb-1 pb-2'>
+                                        <span>Envio</span>
+                                        <span>US$ {shippingPrice}</span>
                                     </div>
-                                    <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                                    <div className="mt-6">
-                                        <Link to="/placeorder"
-                                            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
+                                    <div className='flex justify-between items-center font-semibold pb-2 pt-4'>
+                                        <span>Total</span>
+                                        <span>US$ {total}</span>
+                                    </div>
+                                    <Link to="/address">
+                                        <button
+                                            className="m-auto w-full p-2 bg-celeste-primary text-white rounded-xs text-base font-semibold tracking-widest hover:cursor-pointer"
                                         >
-                                            Checkout
-                                        </Link>
-                                    </div>
-                                    <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                                        <p>
-                                            or{' '}
-                                            <button
-                                                type="button"
-                                                onClick={() => setOpen(false)}
-                                                className="font-medium text-indigo-600 hover:text-indigo-500"
-                                            >
-                                                Continue Shopping
-                                                <span aria-hidden="true"> &rarr;</span>
-                                            </button>
-                                        </p>
-                                    </div>
+                                            Continuar la compra
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
-                        </DialogPanel>
-                    </div>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
-            </div>
-        </Dialog>
+            </section>
+        </>
     )
 }

@@ -4,6 +4,7 @@ import Layout from "../Layouts/Layout";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { orderDetailAction } from "../Redux/Actions/Order";
+import Loading from "../components/Loading";
 
 const OrderConfirmation = () => {
 
@@ -18,7 +19,7 @@ const OrderConfirmation = () => {
     // Confetti state
     const [confettiActive, setConfettiActive] = useState(true);
 
-    // Confetti timer to stop after 5 seconds
+    // Confetti timer to stop after 5 seconds / Tiempo del confetti en parar después 5 segundos
     useEffect(() => {
         const timer = setTimeout(() => {
             setConfettiActive(false);
@@ -30,46 +31,44 @@ const OrderConfirmation = () => {
     return (
         <Layout>
             {loading ? (
-                <h1>Loading</h1>
+                <section className="flex justify-center items-center mt-16">
+                    <Loading />
+                </section>
             ) : (
-                <div className="flex items-center justify-center min-h-screen bg-white">
+                <section className="flex items-center justify-center mt-16">
                     {confettiActive && <Confetti />}
-                    <div className="p-8 bg-gray-100 rounded-lg shadow-lg text-center">
-                        <h1 className="text-4xl font-bold text-green-600 mb-4">
-                            Payment Successful!
+                    <div className="px-6 rounded-lg text-center">
+                        <h1 className="text-2xl font-bold text-celeste-primary mb-4">
+                            Pago completado!
                         </h1>
-                        <p className="text-lg text-gray-700 mb-4">
-                            Thank you for your order.
+                        <p className="text-base text-gray-600 mb-4">
+                            Gracias por su compra.
                         </p>
-                        <div className="bg-white p-4 rounded shadow-sm mb-4">
-                            <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-                                Order Summary
-                            </h2>
+                        <div className="mb-4 py-8">
                             {order && (
                                 <div className="text-left">
-                                    <p>
-                                        <strong>Order ID:</strong> {order._id}
+                                    <p className="text-sm py-2">
+                                        <strong className="mr-2">ID de la compra:</strong> {order._id}
                                     </p>
-                                    <p>
-                                        <strong>Payer Name:</strong> {order.user.name}{" "}
+                                    <p className="text-sm py-2">
+                                        <strong className="mr-2">Usuario:</strong> {order.user.name}
                                     </p>
-                                    <p>
-                                        <strong>Payer Email:</strong> {order.user.email}
+                                    <p className="text-sm py-2">
+                                        <strong className="mr-2">Email del usuario:</strong> {order.user.email}
                                     </p>
-                                    {/* Add more details as needed */}
                                 </div>
                             )}
                         </div>
                         <button
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-200"
+                            className="m-auto px-6 p-2 bg-celeste-primary text-white rounded-xs text-base font-semibold tracking-widest hover:cursor-pointer"
                             onClick={() => {
-                                window.location.href = "/"; // Redirect to homepage or another page
+                                window.location.href = "/";
                             }}
                         >
-                            Continue Shopping
+                            Volver al inicio
                         </button>
                     </div>
-                </div>
+                </section>
             )}
         </Layout>
     );

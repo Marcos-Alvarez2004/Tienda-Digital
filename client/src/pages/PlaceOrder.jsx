@@ -1,20 +1,28 @@
-import { useSelector } from "react-redux";
-import Layout from "../Layouts/Layout";
-import CartItem from "../components/CartItem";
+// React & React redux
 import { useEffect, useState } from "react";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
-import axios from "axios";
-import { BASE_URL } from "../Redux/Constants/BASE_URL";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { BASE_URL } from "../Redux/Constants/BASE_URL";
 import { orderAction, orderPaymentAction } from "../Redux/Actions/Order"
-import { saveShippingAddressAction } from "../Redux/Actions/Cart";
 import { ORDER_RESET } from "../Redux/Constants/Order";
+// React router
 import { useNavigate } from "react-router-dom";
+// Paypal API
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
+// Axios
+import axios from "axios";
+// Components / Componentes
+import ArrowBack from "../components/ArrowBack"
+import Loading from "../components/Loading";
 
 export default function PlaceOrder() {
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const cart = useSelector((state) => state.cartReducer);
-    const { cartItems, shippingAddress } = cart;
+    const { cartItems } = cart;
+
+    const totalQty = cartItems?.reduce((acc, item) => acc + (item.qty || 0), 0) ?? 0;
 
     // subtotal
     const addDecimal = (num) => {
@@ -26,11 +34,6 @@ export default function PlaceOrder() {
     const shippingPrice = addDecimal(subtotal > 100 ? 0 : 20)
     // total
     const total = (Number(subtotal) + Number(taxPrice) + Number(shippingPrice)).toFixed(2);
-    // shipping address form data
-    const [address, setAddress] = useState(shippingAddress.address)
-    const [city, setCity] = useState(shippingAddress.city)
-    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-    const [country, setCountry] = useState(shippingAddress.country)
 
     const [clientId, setClientId] = useState(null)
 
@@ -76,68 +79,56 @@ export default function PlaceOrder() {
         }
     }
 
-    const saveShippingAddress = () => {
-        dispatch(
-            saveShippingAddressAction({
-                address,
-                city,
-                postalCode,
-                country
-            })
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setIsLoading(false)
+        }, 800)
+
+        return () => clearTimeout(timeout)
+    }, [])
+
+    if (isLoading) {
+        return (
+            <section className="min-h-screen flex justify-center items-center">
+                <Loading />
+            </section>
         )
     }
+
     return (
 
         <>
-            <Layout>
+            <ArrowBack />
 
-                <section className="text-gray-600 body-font overflow-hidden">
-                    <div className="container px-5 py-24 mx-auto">
-                        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-                            <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-                                <h2 className="text-sm title-font text-gray-500 tracking-widest">Order Summary</h2>
-                                <div className="leading-relaxed mb-4">
-                                    <CartItem cartItems={cartItems} />
-                                </div>
-                                <div className="flex border-t border-gray-200 py-2">
-                                    <span className="text-gray-500">Subtotal</span>
-                                    <span className="ml-auto text-gray-900">${subtotal}</span>
-                                </div>
-                                <div className="flex border-t border-gray-200 py-2">
-                                    <span className="text-gray-500">Tax</span>
-                                    <span className="ml-auto text-gray-900">${taxPrice}</span>
-                                </div>
-                                <div className="flex border-t border-b mb-6 border-gray-200 py-2">
-                                    <span className="text-gray-500">Shipping Price</span>
-                                    <span className="ml-auto text-gray-900">${shippingPrice}</span>
-                                </div>
-                                <div className="flex">
-                                    <span className="title-font font-medium text-2xl text-gray-900">${total}</span>
-                                </div>
+
+            <section className="min-h-screen flex flex-col justify-center items-center px-5">
+                <div className="flex justify-center items-center">
+                    <h2 className="text-2xl font-semibold relative line">Elige tu forma de pago</h2>
+                </div>
+                <div className="relative py-24 mx-auto">
+                    <div className="mx-auto flex flex-wrap">
+                        <div className="w-full mb-6 font-normal text-base">
+                            <div className="flex py-2">
+                                <span>Productos ({totalQty})</span>
+                                <span className="ml-auto text-gray-900 font-medium">US$ {subtotal}</span>
                             </div>
-                            <div className="lg:w-1/3 md:w-1/2 p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10">
-                                <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Shipping Address</h2>
-                                <div className="relative mb-4">
-                                    <label htmlFor="address" className="leading-7 text-sm text-gray-600">Address</label>
-                                    <input type="text" id="address" name="address"
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                    <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
-                                    <input type="text" id="city" name="city" value={city}
-                                        onChange={(e) => setCity(e.target.value)} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                            <div className="flex py-2">
+                                <span>Impuesto</span>
+                                <span className="ml-auto text-gray-900 font-medium">US$ {taxPrice}</span>
+                            </div>
+                            <div className="flex mb-6 py-2">
+                                <span>Envio</span>
+                                <span className="ml-auto text-gray-900 font-medium">US$ {shippingPrice}</span>
+                            </div>
+                            <div className="flex items-center justify-center mb-6 py-2 text-xl font-medium border-b border-[#ccc]">
+                                <span>Total a pagar</span>
+                                <span className="ml-auto text-celeste-primary">US$ {total}</span>
+                            </div>
+                        </div>
+                        <div className="w-full mx-auto">
 
-                                    <label htmlFor="postalcode" className="leading-7 text-sm text-gray-600">Postalcode</label>
-                                    <input type="text" id="postalcode" name="postalcode" value={postalCode}
-                                        onChange={(e) => setPostalCode(e.target.value)} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                    <label htmlFor="country" className="leading-7 text-sm text-gray-600">Country</label>
-                                    <input type="text" id="country" name="country" value={country}
-                                        onChange={(e) => setCountry(e.target.value)} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                </div>
-
-                                <button onClick={saveShippingAddress} className="mb-10 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Save Shipping Address</button>
-
-                                {clientId && (
+                            {clientId && (
+                                <>
                                     <PayPalScriptProvider options={{ clientId: clientId }}>
                                         <PayPalButtons
                                             createOrder={(data, actions) => {
@@ -159,14 +150,14 @@ export default function PlaceOrder() {
                                             }}
                                         />
                                     </PayPalScriptProvider>
-                                )}
-
-                            </div>
-
+                                </>
+                            )}
                         </div>
+
                     </div>
-                </section>
-            </Layout>
+                </div>
+
+            </section>
         </>
     )
 }

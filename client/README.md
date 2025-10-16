@@ -1,12 +1,15 @@
-# React + Vite
+- Falta resolucion escritorio en products ✔️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Menu para resolucion mayor a 1280px ✔️
 
-Currently, two official plugins are available:
+- Hover para los botones y que al tocar la imagen o titulo (name) te envie al productDetails ✔️
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Función agregar al carrito al hacer click en el boton, sume al carrito de compras ✔️ (Falta hover)
 
-## Expanding the ESLint configuration
+- Toastify al agregar un producto y otro cuando ya este agregado ✔️
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Section cuenta ✔️
+
+- Section Login & Register ✔️
+
+- Arreglar error del menu sidebar que al abrir el menu mobile y dejarlo abierto se rompe.

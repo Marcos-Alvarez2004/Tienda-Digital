@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import { OrderHistory } from "./pages/OrderHistory.jsx";
 import OrderConfirmation from "./pages/OrderConfirm.jsx";
+import ShippingAddress from "./pages/ShippingAddress.jsx"
+import Account from "./pages/Account.jsx";
 
 function App() {
 
@@ -21,12 +23,14 @@ function App() {
           <Route exact path='/products/:id' element={<ProductDetail />}></Route>
           <Route exact path='/login' element={userInfo ? <Navigate to="/"></Navigate> : <Login />}></Route>
           <Route exact path='/register' element={userInfo ? <Navigate to="/"></Navigate> : <Register />}></Route>
+          <Route exact path="/account" element={<Account />}></Route>
 
           <Route exact path='/order/:id' element={<OrderConfirmation />}></Route>
-          <Route exact path='/order-history' element=
+          <Route exact path='/orderhistory' element=
             {<OrderHistory />}></Route>
 
           <Route exact path='/checkout' element={<Checkout />}></Route>
+          <Route exact path='/address' element={<ShippingAddress />}></Route>
           <Route exact path='/placeorder' element={<PlaceOrder />}></Route>
         </Routes>
       </Router>

@@ -1,6 +1,7 @@
 import Footer from "./Footer"
 import Navbar from "./Navbar"
 import 'flowbite';
+import '@fontsource-variable/roboto';
 
 
 const Layout = ({ children }) => {

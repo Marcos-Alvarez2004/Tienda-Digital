@@ -4,10 +4,33 @@
 @source "../node_modules/flowbite";
 
 body {
-  background: #fff;
-  background-color: #ededed;
+  background-color: #f0f0f0;
+  font-family: "Roboto Variable", sans-serif;
+}
+
+@theme {
+  --shadow-border: 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
+  --color-celeste-primary: #009dff;
 }
 
 html {
   overflow-x: hidden;
+}
+
+.line::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.5rem;
+  width: 50%;
+  height: 4px;
+  background: var(--color-celeste-primary);
+  transform: translateX(-50%);
+  border-radius: 4px;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

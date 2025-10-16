@@ -24,12 +24,12 @@ app.use(express.json());
 
 const urlFrontend = "https://ecommerce-topaz-three-27.vercel.app";
 
-// app.use(
-//   cors({
-//     origin: "*",
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: urlFrontend,
+    credentials: true,
+  })
+);
 
 app.use(cors());
 
@@ -50,7 +50,7 @@ app.use("/api/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
 
-app.listen(PORT || 9000, () => {
+app.listen(PORT || 4000, () => {
   console.log("Server iniciado en el puerto " + PORT);
 });
 
