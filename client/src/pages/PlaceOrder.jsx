@@ -14,6 +14,7 @@ import axios from "axios";
 // Components / Componentes
 import ArrowBack from "../components/ArrowBack"
 import Loading from "../components/Loading";
+import WarningAlert from "../components/WarningAlert";
 
 export default function PlaceOrder() {
 
@@ -105,7 +106,10 @@ export default function PlaceOrder() {
                 <div className="flex justify-center items-center">
                     <h2 className="text-2xl font-semibold relative line">Elige tu forma de pago</h2>
                 </div>
-                <div className="relative py-24 mx-auto">
+                <div className="mt-8">
+                    <WarningAlert />
+                </div>
+                <div className="relative py-12 mx-auto">
                     <div className="mx-auto flex flex-wrap">
                         <div className="w-full mb-6 font-normal text-base">
                             <div className="flex py-2">
@@ -124,6 +128,7 @@ export default function PlaceOrder() {
                                 <span>Total a pagar</span>
                                 <span className="ml-auto text-celeste-primary">US$ {total}</span>
                             </div>
+
                         </div>
                         <div className="w-full mx-auto">
 

@@ -1,15 +1,7 @@
-- Falta resolucion escritorio en products ✔️
+# Tienda Digital
 
-- Menu para resolucion mayor a 1280px ✔️
+Una tienda virtual o eccomerce, el proposito principal es poder hacer un usuario que pueda ver, comprar y se guarde su registro de compra. Interfaz sencilla y diseño simple, paleta de colores claras y agradables.
 
-- Hover para los botones y que al tocar la imagen o titulo (name) te envie al productDetails ✔️
+Lenguajes usados y tecnologias:
 
-- Función agregar al carrito al hacer click en el boton, sume al carrito de compras ✔️ (Falta hover)
-
-- Toastify al agregar un producto y otro cuando ya este agregado ✔️
-
-- Section cuenta ✔️
-
-- Section Login & Register ✔️
-
-- Arreglar error del menu sidebar que al abrir el menu mobile y dejarlo abierto se rompe.
+##### HTML - CSS - JAVASCRITP - REACT JS - EXPRESS - NODE JS - REDUX - TAILWIND - MONGODB

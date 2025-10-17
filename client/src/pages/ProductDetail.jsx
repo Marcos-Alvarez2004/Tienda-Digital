@@ -7,12 +7,13 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../Layouts/Layout";
 // Component Loading / Componente Loading
 import Loading from "../components/Loading";
+import WarningAlert from "../components/WarningAlert";
 // Redux
 import { productAction } from "../Redux/Actions/Product";
 import { addToCartAction } from "../Redux/Actions/Cart"
 // Toastify
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/ReactToastify.css";
+import "react-toastify/ReactToastify.css"
 
 function ProductDetail() {
 
@@ -113,11 +114,13 @@ function ProductDetail() {
 
                                 {!userInfo ? (
                                     <>
-                                        <Link to="/login" className="flex justify-center items-center px-4 pb-2">
-                                            <button className="m-auto w-full p-2 bg-celeste-primary text-white rounded-xs text-base font-semibold tracking-widest hover:cursor-pointer hover:brightness-105">
-                                                Agregar al carrito
-                                            </button>
-                                        </Link>
+                                        <div className="my-6">
+                                            <Link to="/login">
+                                                <button className="lg:w-1/2 py-3 px-6 bg-celeste-primary text-white rounded-xs text-base font-semibold tracking-widest hover:cursor-pointer hover:brightness-105">
+                                                    Agregar al carrito
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </>) : (
                                     <>
                                         <div className="my-6">
@@ -126,7 +129,7 @@ function ProductDetail() {
                                                     onClick={() => handleAddCart(product)}
                                                     className="text-white w-full lg:w-1/2 text-base font-semibold bg-celeste-primary border-0 py-3 px-6 focus:outline-none rounded-sm cursor-pointer tracking-widest hover:brightness-105"
                                                 >
-                                                    Añadir al carrito
+                                                    Agregar al carrito
                                                 </button>
                                             ) : (
                                                 <button className="text-white w-full lg:w-1/2 text-base font-semibold bg-celeste-primary border-0 py-3 px-6 focus:outline-none rounded-sm tracking-widest cursor-not-allowed">
@@ -149,6 +152,9 @@ function ProductDetail() {
                         </div>
                     </section>
                     <ToastContainer />
+                    <div className="px-4">
+                        <WarningAlert />
+                    </div>
                 </>
             )
             }

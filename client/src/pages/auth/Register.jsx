@@ -51,7 +51,7 @@ export default function Register() {
 
                                     <div className="mb-5 lg:w-2/3 lg:mx-auto">
                                         <label htmlFor="password" className="leading-7 text-sm font-bold">Contraseña</label>
-                                        <input type="text" id="password" name="password"
+                                        <input type="password" id="password" name="password"
                                             required
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
