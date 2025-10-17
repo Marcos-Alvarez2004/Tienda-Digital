@@ -38,7 +38,7 @@ export function OrderHistory() {
                                         orders && (
                                             orders.map((order) => (
 
-                                                <div key={order.id} className="flex flex-wrap justify-center items-center gap-y-4 py-6">
+                                                <div key={order._id} className="flex flex-wrap justify-center items-center gap-y-4 py-6">
 
                                                     <div className="text-left border-[0.5px] border-[#ccc] px-4 py-2 rounded-sm text-sm">
                                                         <p className="text-lg py-2">

@@ -2,16 +2,18 @@ import { saveShippingAddressAction } from "../Redux/Actions/Cart";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowBack from '../components/ArrowBack';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function shippingAddress() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const { shippingAddress } = useSelector((state) => state.cartReducer);
     // shipping address form data
-    const [address, setAddress] = useState(shippingAddress.address)
-    const [city, setCity] = useState(shippingAddress.city)
-    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-    const [country, setCountry] = useState(shippingAddress.country)
+    const [address, setAddress] = useState(shippingAddress?.address || "")
+    const [city, setCity] = useState(shippingAddress?.city || "")
+    const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode || "")
+    const [country, setCountry] = useState(shippingAddress?.country || "")
     const saveShippingAddress = () => {
         dispatch(
             saveShippingAddressAction({

@@ -83,7 +83,7 @@ const Products = () => {
                         <div className="container px-5 mx-auto">
                             <div className="flex flex-wrap -m-4">
                                 {products.map((product) => (
-                                    <div className="px-4 py-3 lg:w-1/3 xl:w-1/4 md:w-1/2 w-full" key={product.id}>
+                                    <div className="px-4 py-3 lg:w-1/3 xl:w-1/4 md:w-1/2 w-full" key={product._id}>
                                         <div className="bg-white rounded-sm border-[0.5px] border-[#ccc]">
 
 
